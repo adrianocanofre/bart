@@ -15,14 +15,14 @@ func main() {
 
         dd := NewDispatcher(cfg.Concurrency).Start()
 
-				DefaultClient = ConfigClient(cfg.Timeout * time.Second)
-				DefaultRequest = ConfigRequest(cfg.Method, cfg.Url, cfg.Body)
+				DefaultClient = ConfigClient(cfg.Http.Timeout * time.Second)
+				DefaultRequest = ConfigRequest(cfg.Http.Method, cfg.Http.Url, cfg.Http.Body)
 
 				fmt.Println(cfg.Requests)
         for i := 0; i < cfg.Requests; i++ {
                 dd.Submit(Job{
 												ID: i,
-												StatusCode:  cfg.StatusCode,
+												StatusCode:  cfg.Http.StatusCode,
 										})
         }
         // end := time.Now()

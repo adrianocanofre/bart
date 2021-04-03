@@ -19,13 +19,16 @@ var (
 type Config struct {
         Requests int `yaml:"requests"`
         Concurrency int `yaml:"concurrency"`
-        Url string `yaml:"url"`
-        Method string `yaml:"method"`
-        Timeout time.Duration `yaml:"timeout"`
-        StatusCode int `yaml:"statusCode"`
         Output string `yaml:"output"`
         Body string `yaml:"body"`
         PathLog string `yaml:"pathLog"`
+        Http   struct {
+          Url string `yaml:"url"`
+          Method string `yaml:"method"`
+          StatusCode int `yaml:"statusCode"`
+          Body string `yaml:"body"`
+          Timeout time.Duration `yaml:"timeout"`
+        } `yaml:"http"`
 }
 
 type Job struct {

@@ -64,7 +64,6 @@ func init() {
         if logConfig.PathLog == ""{
                 logConfig.PathLog = "log"
         }
-
         _, err = os.Stat(logConfig.PathLog)
 
         if os.IsNotExist(err) {
