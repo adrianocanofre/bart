@@ -13,6 +13,7 @@ var (
         AccessLog  *log.Logger
         ErrorLog   *log.Logger
 				HttpError  int
+        cfg *Config
 )
 
 type Config struct {
@@ -24,6 +25,7 @@ type Config struct {
         StatusCode int `yaml:"statusCode"`
         Output string `yaml:"output"`
         Body string `yaml:"body"`
+        PathLog string `yaml:"pathLog"`
 }
 
 type Job struct {

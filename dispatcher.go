@@ -1,5 +1,8 @@
 package main
 
+import (
+        "log"
+)
 
 func NewDispatcher(num int) *disp {
         return &disp{
@@ -13,6 +16,7 @@ func NewDispatcher(num int) *disp {
 func (d *disp) Start() *disp {
         l := len(d.Workers)
         for i := 1; i <= l; i++ {
+                log.Println("Dispacher",i)
                 wrk := NewWorker(i, make(JobChannel), d.Queue, make(chan struct{}))
                 wrk.Start()
                 d.Workers = append(d.Workers, wrk)

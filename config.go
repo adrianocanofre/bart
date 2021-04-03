@@ -30,8 +30,6 @@ func OpenFile() (*Config, error) {
 
 func ConfigClient(timeout time.Duration)(http.Client){
         tr := &http.Transport{
-                MaxIdleConns:       100,
-                MaxIdleConnsPerHost:  20,
                 DisableKeepAlives: true,
         }
 
@@ -56,24 +54,37 @@ func ConfigRequest(method string, url string, body string)(*http.Request){
 
 
 func init() {
-        _, err := os.Stat("log")
+
+        logConfig, err := OpenFile()
+
+      	if err != nil {
+                log.Println(err)
+        }
+
+        if logConfig.PathLog == ""{
+                logConfig.PathLog = "log"
+        }
+
+        _, err = os.Stat(logConfig.PathLog)
 
         if os.IsNotExist(err) {
-                errDir := os.MkdirAll("log", 0755)
+                errDir := os.MkdirAll(logConfig.PathLog, 0755)
                 if errDir != nil {
                         log.Fatal(err)
                 }
         }
-        access, err := os.OpenFile("log/access.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+        access, err := os.OpenFile(logConfig.PathLog + "/access.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
         if err != nil {
                 log.Fatal(err)
         }
 
-        error, err := os.OpenFile("log/error.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+        error, err := os.OpenFile(logConfig.PathLog + "/error.log", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
         if err != nil {
                 log.Fatal(err)
         }
 
         AccessLog = log.New(access, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
         ErrorLog = log.New(error, "ERROR: ", log.Ldate|log.Ltime|log.Lshortfile)
+
+        cfg = logConfig
 }

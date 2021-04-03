@@ -3,7 +3,7 @@ package main
 import (
         // "io/ioutil"
         // "strings"
-        // "time"
+        //"time"
         // "bytes"
         // "log"
 )
@@ -20,12 +20,15 @@ func NewWorker(ID int, JobChan JobChannel, Queue JobQueue, Quit chan struct{}) *
 func (wr *Worker) Start() {
         go func() {
         for {
+
                 wr.Queue <- wr.JobChan
                 select {
                         case job := <-wr.JobChan:
+                              // log.Println("Worker", job.ID)
 				                      callApi(job.ID, job.StatusCode)
-                              // time.Sleep(1 * time.Second)
+                              // log.Println("Close", job.ID)
 			                  case <-wr.Quit:
+
                               close(wr.JobChan)
                               return
                 }

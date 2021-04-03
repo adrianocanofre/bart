@@ -13,10 +13,6 @@ import (
 func main() {
         // start := time.Now()
 
-        cfg, err := OpenFile()
-				if err != nil {
-                ErrorLog.Println(err)
-        }
         dd := NewDispatcher(cfg.Concurrency).Start()
 
 				DefaultClient = ConfigClient(cfg.Timeout * time.Second)
